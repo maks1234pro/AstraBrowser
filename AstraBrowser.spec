@@ -1,7 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-block_cipher = None
-
 a = Analysis(
     ['main.py'],
     pathex=[],
@@ -12,7 +10,6 @@ a = Analysis(
     hiddenimports=[
         'PyQt6.QtWebEngineWidgets',
         'PyQt6.QtWebEngineCore',
-        'PyQt6.QtWebEngineQuick',
     ],
     hookspath=[],
     hooksconfig={},
@@ -26,22 +23,14 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
+    a.binaries,
+    a.datas,
     [],
-    exclude_binaries=True,
     name='AstraBrowser',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     console=False,
-)
-
-coll = COLLECT(
-    exe,
-    a.binaries,
-    a.datas,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name='AstraBrowser',
+    onefile=True,
 )
