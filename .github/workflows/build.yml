@@ -24,12 +24,13 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --onefile --windowed --name AstraBrowser main.py
+          pyinstaller AstraBrowser.spec
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Windows Build
+        uses: actions/upload-artifact@v4
         with:
           name: AstraBrowser-Windows
-          path: dist/*
+          path: dist/AstraBrowser/**
 
   linux:
     runs-on: ubuntu-latest
@@ -41,7 +42,12 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
+      - name: Install Qt dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libgl1 libegl1 libxkbcommon0
+
+      - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -49,9 +55,10 @@ jobs:
 
       - name: Build Linux
         run: |
-          pyinstaller --onefile --windowed --name AstraBrowser main.py
+          pyinstaller AstraBrowser.spec
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Linux Build
+        uses: actions/upload-artifact@v4
         with:
           name: AstraBrowser-Linux
-          path: dist/*
+          path: dist/AstraBrowser/**
